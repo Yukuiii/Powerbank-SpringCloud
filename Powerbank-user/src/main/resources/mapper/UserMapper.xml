@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yukuii.powerbank.user.mapper.UserMapper">
+    
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yukuii.powerbank.user.model.User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="mobile" property="mobile"/>
+        <result column="email" property="email"/>
+        <result column="user_type" property="userType"/>
+        <result column="status" property="status"/>
+        <result column="last_login_ip" property="lastLoginIp"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="last_login_time" property="lastLoginTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, username, password, mobile, email, user_type, status, 
+        last_login_ip, remark, create_time, update_time, last_login_time
+    </sql>
+
+    <!-- 根据用户名查询用户 -->
+    <select id="findByUsername" resultMap="BaseResultMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM user 
+        WHERE username = #{username}
+        AND status != -1
+    </select>
+
+
+    <!-- 插入用户信息 -->
+    <insert id="insert">
+        INSERT INTO user (
+            id,
+            username,
+            password,
+            mobile,
+            email,
+            user_type,
+            status,
+            last_login_ip,
+            remark,
+            create_time,
+            update_time,
+            last_login_time
+        ) VALUES (
+            #{id},
+            #{username},
+            #{password},
+            #{mobile},
+            #{email},
+            #{userType},
+            #{status},
+            #{lastLoginIp},
+            #{remark},
+            #{createTime},
+            #{updateTime},
+            #{lastLoginTime}
+        )
+    </insert>
+
+    <!-- 根据ID查询用户 -->
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM user 
+        WHERE id = #{id}
+        AND status != -1
+    </select>
+
+    <!-- 更新密码 -->
+    <update id="updatePassword">
+        UPDATE user 
+        SET password = #{newPassword},
+            update_time = #{updateTime}
+        WHERE id = #{id}
+        AND status != -1
+    </update>
+
+</mapper> 
