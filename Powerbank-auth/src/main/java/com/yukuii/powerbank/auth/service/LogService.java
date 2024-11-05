@@ -3,7 +3,7 @@ package com.yukuii.powerbank.auth.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yukuii.powerbank.auth.model.LoginLog;
 
-public interface LoginLogService extends IService<LoginLog> {
+public interface LogService extends IService<LoginLog> {
     
     /**
      * 记录登录日志

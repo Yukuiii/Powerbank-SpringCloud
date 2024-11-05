@@ -16,7 +16,7 @@ import com.yukuii.powerbank.auth.model.User;
 import com.yukuii.powerbank.auth.mapper.AuthAdminMapper;
 import com.yukuii.powerbank.auth.mapper.AuthUserMapper;
 import com.yukuii.powerbank.auth.constant.AuthConstant;
-import com.yukuii.powerbank.auth.service.LoginLogService;
+import com.yukuii.powerbank.auth.service.LogService;
 import cn.hutool.crypto.digest.BCrypt;
 
 import cn.dev33.satoken.stp.StpUtil;
@@ -27,7 +27,7 @@ public class AuthServiceImpl implements AuthService {
 
     private AuthAdminMapper adminMapper;
     private AuthUserMapper userMapper;
-    private LoginLogService loginLogService;
+    private LogService logService;
 
     @Override
     public SaTokenInfo adminLogin(LoginDTO loginDTO) {
@@ -50,7 +50,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         StpUtil.login(admin.getId());
-        loginLogService.recordLoginLog(admin.getId(), admin.getUsername());
+        logService.recordLoginLog(admin.getId(), admin.getUsername());
         StpUtil.getSession().set(AuthConstant.STP_ADMIN_INFO, admin);
         SaTokenInfo saTokenInfo = StpUtil.getTokenInfo();
         return saTokenInfo;
@@ -79,7 +79,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         StpUtil.login(user.getId());
-        loginLogService.recordLoginLog(user.getId(), user.getUsername());
+        logService.recordLoginLog(user.getId(), user.getUsername());
         StpUtil.getSession().set(AuthConstant.STP_USER_INFO, user);
         SaTokenInfo saTokenInfo = StpUtil.getTokenInfo();
         return saTokenInfo;
@@ -107,7 +107,7 @@ public class AuthServiceImpl implements AuthService {
         StpUtil.logout();
         
         // 可以在这里添加登出日志记录
-        loginLogService.recordLogoutLog(loginId, username);
+        logService.recordLogoutLog(loginId, username);
     }
 
 }

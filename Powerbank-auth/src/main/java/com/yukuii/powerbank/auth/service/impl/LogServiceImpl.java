@@ -13,7 +13,7 @@ import com.yukuii.powerbank.auth.mapper.LoginLogMapper;
 import com.yukuii.powerbank.auth.mapper.LogoutLogMapper;
 import com.yukuii.powerbank.auth.model.LoginLog;
 import com.yukuii.powerbank.auth.model.LogoutLog;
-import com.yukuii.powerbank.auth.service.LoginLogService;
+import com.yukuii.powerbank.auth.service.LogService;
 import com.yukuii.powerbank.auth.utils.LoginInfoUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class LoginLogServiceImpl extends ServiceImpl<LoginLogMapper, LoginLog> implements LoginLogService {
+public class LogServiceImpl extends ServiceImpl<LoginLogMapper, LoginLog> implements LogService {
 
     @Autowired
     private LogoutLogMapper logoutLogMapper;
