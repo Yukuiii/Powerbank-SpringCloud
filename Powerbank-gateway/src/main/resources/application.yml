@@ -1,0 +1,69 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: powerbank-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        # 认证服务
+        - id: auth-service
+          uri: lb://powerbank-auth
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+            
+        # 用户服务
+        - id: user-service
+          uri: lb://powerbank-user
+          predicates:
+            - Path=/user/**
+          filters:
+            - StripPrefix=1
+            
+        # 订单服务
+        - id: order-service
+          uri: lb://powerbank-order
+          predicates:
+            - Path=/order/**
+          filters:
+            - StripPrefix=1
+
+  # Redis配置
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: 
+      database: 1
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: -1ms
+
+# Sa-Token配置
+sa-token:
+  # token名称
+  token-name: Authorization
+  # token前缀
+  token-prefix: Bearer
+  # token有效期
+  timeout: 2592000
+  # 是否允许同一账号并发登录
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个token
+  is-share: false
+  # token风格
+  token-style: uuid
+  # 是否输出操作日志
+  is-log: false 
