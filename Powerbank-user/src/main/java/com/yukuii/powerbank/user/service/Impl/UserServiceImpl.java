@@ -1,5 +1,12 @@
 package com.yukuii.powerbank.user.service.Impl;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.yukuii.powerbank.common.exception.BizException;
 import com.yukuii.powerbank.user.dto.RegisterDTO;
 import com.yukuii.powerbank.user.dto.UpdatePasswordDTO;
@@ -9,13 +16,7 @@ import com.yukuii.powerbank.user.service.UserService;
 import com.yukuii.powerbank.user.utils.IpUtil;
 
 import cn.hutool.crypto.digest.BCrypt;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import jakarta.annotation.Resource;
-import java.time.LocalDateTime;
-import java.util.UUID;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Service

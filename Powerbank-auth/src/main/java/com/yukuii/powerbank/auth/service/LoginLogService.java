@@ -11,4 +11,10 @@ public interface LoginLogService extends IService<LoginLog> {
      */
     void recordLoginLog(String userId, String username);
 
+    /**
+     * 记录登出日志
+     * @param userId 用户ID
+     */
+    void recordLogoutLog(Long userId, String username);
+
 } 

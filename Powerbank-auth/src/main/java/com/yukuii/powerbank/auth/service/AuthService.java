@@ -9,5 +9,10 @@ public interface AuthService {
     SaTokenInfo adminLogin(LoginDTO loginDTO);
 
     SaTokenInfo userLogin(LoginDTO loginDTO);
+
+    /**
+     * 退出登录
+     */
+    void logout();
         
 }

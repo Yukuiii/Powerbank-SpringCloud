@@ -85,4 +85,29 @@ public class AuthServiceImpl implements AuthService {
         return saTokenInfo;
     }
 
+    @Override
+    public void logout() {
+        // 判断当前会话是否已经登录
+        if (!StpUtil.isLogin()) {
+            throw new BizException("当前用户未登录");
+        }
+        
+        // 获取当前登录用户ID
+        Long loginId = StpUtil.getLoginIdAsLong();
+        
+        // 判断用户类型
+        String username;
+        if (StpUtil.getSession().get(AuthConstant.STP_USER_INFO) != null) {
+            username = StpUtil.getSession().getString(AuthConstant.STP_USER_INFO + ".username");
+        } else {
+            username = StpUtil.getSession().getString(AuthConstant.STP_ADMIN_INFO + ".username"); 
+        }
+        
+        // 清除用户的登录信息
+        StpUtil.logout();
+        
+        // 可以在这里添加登出日志记录
+        loginLogService.recordLogoutLog(loginId, username);
+    }
+
 }

@@ -42,4 +42,14 @@ public class AuthController {
         }
         return CommonResult.success(saTokenInfo.getTokenValue());
     }
+
+    @Operation(summary = "退出登录接口", description = "用户退出登录接口，清除token信息", responses = {
+            @ApiResponse(responseCode = "200", description = "退出成功", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CommonResult.class))),
+            @ApiResponse(responseCode = "500", description = "系统错误")
+    })
+    @PostMapping("/logout")
+    public CommonResult<String> logout() {
+        authService.logout();
+        return CommonResult.success("退出成功");
+    }
 }

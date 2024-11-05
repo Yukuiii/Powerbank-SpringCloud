@@ -1,8 +1,10 @@
 package com.yukuii.powerbank.user.mapper;
 
-import com.yukuii.powerbank.user.model.User;
-import org.apache.ibatis.annotations.Mapper;
 import java.time.LocalDateTime;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.yukuii.powerbank.user.model.User;
 
 @Mapper
 public interface UserMapper {
