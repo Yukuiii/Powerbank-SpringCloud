@@ -10,6 +10,7 @@
 | Powerbank-auth | 8000 |
 | Powerbank-gateway | 8080 |
 | Powerbank-monitor | 8001 |
+| Powerbank-order | 8082 |
 
 ### 一、创建父工程
 
