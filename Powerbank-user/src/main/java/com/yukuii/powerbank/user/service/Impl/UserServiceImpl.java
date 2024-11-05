@@ -1,6 +1,10 @@
 package com.yukuii.powerbank.user.service.Impl;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
@@ -8,8 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yukuii.powerbank.common.exception.BizException;
+import com.yukuii.powerbank.common.pojo.PageResult;
 import com.yukuii.powerbank.user.dto.RegisterDTO;
 import com.yukuii.powerbank.user.dto.UpdatePasswordDTO;
+import com.yukuii.powerbank.user.dto.UpdateUserDTO;
 import com.yukuii.powerbank.user.mapper.UserMapper;
 import com.yukuii.powerbank.user.model.User;
 import com.yukuii.powerbank.user.service.UserService;
@@ -95,5 +101,58 @@ public class UserServiceImpl implements UserService {
         if (rows != 1) {
             throw new BizException("修改密码失败");
         }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateUserInfo(UpdateUserDTO updateUserDTO) {
+        User user = userMapper.findById(updateUserDTO.getId());
+        if (user == null) {
+            throw new BizException("用户不存在");
+        }
+        
+        User updateUser = new User();
+        BeanUtils.copyProperties(updateUserDTO, updateUser);
+        updateUser.setUpdateTime(LocalDateTime.now());
+        
+        int rows = userMapper.updateUserInfo(updateUser);
+        if (rows != 1) {
+            throw new BizException("更新用户信息失败");
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateStatus(String userId, Integer status) {
+        User user = userMapper.findById(userId);
+        if (user == null) {
+            throw new BizException("用户不存在");
+        }
+        
+        if (!Arrays.asList(0, 1).contains(status)) {
+            throw new BizException("状态值不正确");
+        }
+        
+        int rows = userMapper.updateStatus(userId, status, LocalDateTime.now());
+        if (rows != 1) {
+            throw new BizException("更新用户状态失败");
+        }
+    }
+
+    @Override
+    public PageResult<User> getUserList(Integer pageNum, Integer pageSize, String username, Integer status) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("offset", (pageNum - 1) * pageSize);
+        params.put("pageSize", pageSize);
+        params.put("username", username);
+        params.put("status", status);
+        
+        List<User> users = userMapper.findByPage(params);
+        long total = userMapper.countTotal(params);
+        
+        // 清除敏感信息
+        users.forEach(user -> user.setPassword(null));
+        
+        return new PageResult<>(total, users);
     }
 }

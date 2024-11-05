@@ -83,4 +83,50 @@
         AND status != -1
     </update>
 
+    <update id="updateUserInfo" parameterType="com.yukuii.powerbank.user.model.User">
+        UPDATE user
+        <set>
+            <if test="mobile != null">mobile = #{mobile},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            update_time = #{updateTime}
+        </set>
+        WHERE id = #{id}
+    </update>
+    
+    <update id="updateStatus">
+        UPDATE user
+        SET status = #{status},
+            update_time = #{updateTime}
+        WHERE id = #{id}
+    </update>
+    
+    <select id="findByPage" resultType="com.yukuii.powerbank.user.model.User">
+        SELECT *
+        FROM user
+        <where>
+            <if test="username != null and username != ''">
+                AND username LIKE CONCAT('%', #{username}, '%')
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+    
+    <select id="countTotal" resultType="long">
+        SELECT COUNT(*)
+        FROM user
+        <where>
+            <if test="username != null and username != ''">
+                AND username LIKE CONCAT('%', #{username}, '%')
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
+
 </mapper> 

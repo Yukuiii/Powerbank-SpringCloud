@@ -1,6 +1,8 @@
 package com.yukuii.powerbank.user.mapper;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -16,4 +18,12 @@ public interface UserMapper {
     User findById(String id);
     
     int updatePassword(String id, String newPassword, LocalDateTime updateTime);
+    
+    int updateUserInfo(User user);
+    
+    int updateStatus(String id, Integer status, LocalDateTime updateTime);
+    
+    List<User> findByPage(Map<String, Object> params);
+    
+    long countTotal(Map<String, Object> params);
 } 

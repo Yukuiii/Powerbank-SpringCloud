@@ -5,11 +5,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yukuii.powerbank.common.pojo.CommonResult;
+import com.yukuii.powerbank.common.pojo.PageResult;
 import com.yukuii.powerbank.user.dto.RegisterDTO;
 import com.yukuii.powerbank.user.dto.UpdatePasswordDTO;
+import com.yukuii.powerbank.user.dto.UpdateUserDTO;
 import com.yukuii.powerbank.user.model.User;
 import com.yukuii.powerbank.user.service.UserService;
 
@@ -48,5 +51,31 @@ public class UserController {
     public CommonResult<String> updatePassword(@Valid @RequestBody UpdatePasswordDTO updatePasswordDTO) {
         userService.updatePassword(updatePasswordDTO);
         return CommonResult.success("密码修改成功");
+    }
+
+    @PostMapping("/info/update")
+    @Operation(summary = "更新用户信息")
+    public CommonResult<String> updateUserInfo(@Valid @RequestBody UpdateUserDTO updateUserDTO) {
+        userService.updateUserInfo(updateUserDTO);
+        return CommonResult.success("更新成功");
+    }
+
+    @PostMapping("/status/{userId}/{status}")
+    @Operation(summary = "更新用户状态")
+    public CommonResult<String> updateStatus(
+            @Parameter(description = "用户ID") @PathVariable String userId,
+            @Parameter(description = "状态(1:启用 0:禁用)") @PathVariable Integer status) {
+        userService.updateStatus(userId, status);
+        return CommonResult.success("状态更新成功");
+    }
+
+    @GetMapping("/list")
+    @Operation(summary = "分页查询用户列表")
+    public CommonResult<PageResult<User>> getUserList(
+            @Parameter(description = "页码") @RequestParam(defaultValue = "1") Integer pageNum,
+            @Parameter(description = "每页数量") @RequestParam(defaultValue = "10") Integer pageSize,
+            @Parameter(description = "用户名") @RequestParam(required = false) String username,
+            @Parameter(description = "状态") @RequestParam(required = false) Integer status) {
+        return CommonResult.success(userService.getUserList(pageNum, pageSize, username, status));
     }
 }
