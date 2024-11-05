@@ -2,6 +2,15 @@
 
 该项目为本人学习SpringCloud的开发笔记，可供学习者参考
 
+微服务端口
+
+| 服务名称 | 端口号 |
+|----------|--------|
+| Powerbank-user | 8081 |
+| Powerbank-auth | 8000 |
+| Powerbank-gateway | 8080 |
+| Powerbank-monitor | 8001 |
+
 ### 一、创建父工程
 
 1.创建普通的SpringBoot 3.3.5项目，此项目作为父工程，主要用于管理子工程依赖
