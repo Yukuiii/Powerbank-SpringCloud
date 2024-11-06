@@ -4,6 +4,8 @@ import com.yukuii.powerbank.common.pojo.PageResult;
 import com.yukuii.powerbank.order.dto.CreateOrderDTO;
 import com.yukuii.powerbank.order.model.Order;
 
+import java.util.List;
+
 public interface OrderService {
     
     Order createOrder(CreateOrderDTO createOrderDTO);

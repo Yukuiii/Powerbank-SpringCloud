@@ -16,10 +16,11 @@
     <description>SpringCloud父工程</description>
     <modules>
         <module>Powerbank-auth</module>
-        <module>Powerban-monitor</module>
+        <module>Powerbank-monitor</module>
         <module>Powerbank-common</module>
         <module>Powerbank-user</module>
         <module>Powerbank-gateway</module>
+        <module>Powerbank-order</module>
     </modules>
 
     <properties>

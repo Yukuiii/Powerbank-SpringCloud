@@ -5,7 +5,7 @@ spring:
     user:
       name: yukuii
       password: 123456
-  boot:  # 不显示admin-server的监控信息
+  boot: # 不显示admin-server的监控信息
     admin:
       discovery:
         ignored-services: ${spring.application.name}
